@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sổ Tay Sinh Viên – UTT</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { utt: { red: '#C8102E', dark: '#9B0C22' } },
+        fontFamily: { sans: ['Be Vietnam Pro', 'sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+
+</style>
+</head>
+<div class="font-sans bg-gray-100 h-screen overflow-hidden flex">
+
+<!-- ===== PDF SIDEBAR ===== -->
+<aside class="w-[45%] min-w-[45%] bg-white border-r border-gray-200 flex flex-col max-md:hidden">
+
+  <!-- Header -->
+  <div class="bg-gradient-to-br from-utt-red to-utt-dark p-4 flex items-center gap-3 text-white shrink-0">
+    <div class="w-11 h-11 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center font-bold text-lg shrink-0">UTT</div>
+    <div>
+      <p class="text-sm font-semibold leading-tight">Sổ Tay Sinh Viên</p>
+      <p class="text-xs opacity-75">Đại học Giao thông Vận tải</p>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="flex items-center gap-2 px-4 py-2 border-b border-gray-100 bg-gray-50 shrink-0">
+    <span class="text-xs font-semibold text-utt-red">📄 Sổ tay 2024</span>
+    <div class="flex-1"></div>
+    <a href="https://drive.google.com/file/d/1fOiqrUmDmrZMj7UMN8h_RL6nPvWNhJuK/view" target="_blank"
+      class="text-xs px-3 py-1.5 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 text-gray-600 transition">↗ Mở rộng</a>
+  </div>
+
+  <!-- PDF iframe -->
+  <div class="flex-1 bg-[#525659]">
+    <iframe
+      src="https://drive.google.com/file/d/1fOiqrUmDmrZMj7UMN8h_RL6nPvWNhJuK/preview"
+      class="w-full h-full border-0" title="Sổ tay PDF"></iframe>
+  </div>
+</aside>
+
+<!-- ===== CHAT SECTION ===== -->
+<main class="flex-1 flex flex-col min-w-0">
+
+  <!-- Mobile top bar -->
+  <div class="md:hidden flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-utt-red to-utt-dark text-white shrink-0">
+    <div class="w-9 h-9 rounded-lg bg-white/15 border border-white/25 flex items-center justify-center text-lg">☰</div>
+    <div class="flex-1 min-w-0">
+      <p class="text-sm font-semibold truncate">🎓 Sổ Tay Sinh Viên</p>
+      <p class="text-xs opacity-75">Đại học Giao thông Vận tải</p>
+    </div>
+    <div class="text-xs px-3 py-1.5 rounded-lg bg-white/15 border border-white/25 shrink-0">📄 PDF</div>
+  </div>
+
+  <!-- Desktop header -->
+  <div class="hidden md:flex items-center gap-3 px-6 py-3 bg-white border-b border-gray-200 shadow-sm shrink-0">
+    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-utt-red to-utt-dark flex items-center justify-center text-white text-lg shadow-md shrink-0">🎓</div>
+    <div class="flex-1">
+      <p class="text-sm font-semibold text-gray-900">UTT Assistant – Sổ Tay Sinh Viên</p>
+      <p class="text-xs text-green-500 flex items-center gap-1.5">
+        <span class="blink w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>Đang hoạt động
+      </p>
+    </div>
+    <button class="w-9 h-9 border border-gray-200 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition text-sm">🗑️</button>
+  </div>
+
+  <!-- Messages area -->
+  <div id="msgs" class="flex-1 overflow-y-auto px-4 py-5 md:px-6 flex flex-col gap-4 bg-gray-50">
+
+    <!-- Welcome card -->
+    <div class="rounded-2xl bg-gradient-to-br from-utt-red to-utt-dark text-white p-5 text-center relative overflow-hidden">
+      <div class="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-white/5 pointer-events-none"></div>
+      <div class="absolute -bottom-6 -left-4 w-20 h-20 rounded-full bg-white/5 pointer-events-none"></div>
+      <p class="text-3xl mb-2">🎓</p>
+      <p class="font-bold text-base mb-1">Xin chào, Tân Sinh Viên UTT!</p>
+      <p class="text-xs opacity-85 leading-relaxed">Hỏi tôi về nội quy, học vụ, học bổng, ký túc xá...</p>
+      <div class="flex flex-wrap justify-center gap-2 mt-4 relative z-10">
+        <span class="text-xs px-3 py-1.5 rounded-full bg-white/15 border border-white/25 cursor-pointer hover:bg-white/25 transition">📋 Học vụ</span>
+        <span class="text-xs px-3 py-1.5 rounded-full bg-white/15 border border-white/25 cursor-pointer hover:bg-white/25 transition">🏆 Học bổng</span>
+        <span class="text-xs px-3 py-1.5 rounded-full bg-white/15 border border-white/25 cursor-pointer hover:bg-white/25 transition">📝 Đăng ký môn</span>
+        <span class="text-xs px-3 py-1.5 rounded-full bg-white/15 border border-white/25 cursor-pointer hover:bg-white/25 transition">🏠 Ký túc xá</span>
+        <span class="text-xs px-3 py-1.5 rounded-full bg-white/15 border border-white/25 cursor-pointer hover:bg-white/25 transition">📅 Lịch học</span>
+      </div>
+    </div>
+
+    <!-- Bot message -->
+    <div class="flex items-end gap-2">
+      <div class="w-8 h-8 rounded-full bg-gradient-to-br from-utt-red to-utt-dark flex items-center justify-center text-white text-sm shadow shrink-0">🤖</div>
+      <div>
+        <div class="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 text-sm text-gray-800 shadow-sm max-w-xs leading-relaxed">
+          Chào bạn! 👋 Tôi sẵn sàng hỗ trợ mọi thắc mắc về <span class="text-utt-red font-semibold">Sổ Tay Sinh Viên UTT</span>. 📖
+        </div>
+        <p class="text-[10px] text-gray-400 mt-1 ml-1">08:30</p>
+      </div>
+    </div>
+
+    <!-- User message (sample) -->
+    <div class="flex items-end gap-2 flex-row-reverse">
+      <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white text-sm shadow shrink-0">👤</div>
+      <div class="flex flex-col items-end">
+        <div class="bg-gradient-to-br from-utt-red to-utt-dark text-white rounded-2xl rounded-br-sm px-4 py-3 text-sm shadow-sm max-w-xs leading-relaxed">
+          Quy định học vụ như thế nào?
+        </div>
+        <p class="text-[10px] text-gray-400 mt-1 mr-1">08:31</p>
+      </div>
+    </div>
+
+    <!-- Bot reply (sample) -->
+    <div class="flex items-end gap-2">
+      <div class="w-8 h-8 rounded-full bg-gradient-to-br from-utt-red to-utt-dark flex items-center justify-center text-white text-sm shadow shrink-0">🤖</div>
+      <div>
+        <div class="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 text-sm text-gray-800 shadow-sm max-w-sm leading-relaxed">
+          <b class="text-utt-red">Quy định học vụ UTT:</b>
+          <ul class="list-disc pl-4 mt-2 space-y-1 text-gray-700">
+            <li>Đăng ký tối thiểu <b>14 tín chỉ/học kỳ</b></li>
+            <li>GPA tối thiểu không bị cảnh báo: <b>1.0/4.0</b></li>
+            <li>Nghỉ quá 20% số tiết → cấm thi</li>
+            <li>Thời gian đào tạo tối đa: <b>2× số năm chuẩn</b></li>
+          </ul>
+        </div>
+        <p class="text-[10px] text-gray-400 mt-1 ml-1">08:31</p>
+      </div>
+    </div>
+
+    <!-- Typing indicator (sample) -->
+    <div class="flex items-end gap-2">
+      <div class="w-8 h-8 rounded-full bg-gradient-to-br from-utt-red to-utt-dark flex items-center justify-center text-white text-sm shadow shrink-0">🤖</div>
+      <div class="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3.5 flex gap-1.5 shadow-sm">
+        <span class="d1 w-2 h-2 rounded-full bg-utt-red inline-block"></span>
+        <span class="d2 w-2 h-2 rounded-full bg-utt-red inline-block"></span>
+        <span class="d3 w-2 h-2 rounded-full bg-utt-red inline-block"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Input bar -->
+  <div class="bg-white border-t border-gray-200 px-4 py-3 shrink-0">
+    <div class="flex items-end gap-2 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2.5
+                focus-within:border-utt-red focus-within:ring-2 focus-within:ring-utt-red/10 focus-within:bg-white transition-all">
+      <textarea rows="1"
+        placeholder="Nhập câu hỏi về sổ tay sinh viên..."
+        class="flex-1 bg-transparent border-none outline-none text-sm text-gray-800 placeholder-gray-400 resize-none max-h-28 leading-relaxed font-sans"></textarea>
+      <button class="w-9 h-9 rounded-xl bg-gradient-to-br from-utt-red to-utt-dark text-white flex items-center justify-center shadow-md hover:scale-105 hover:shadow-lg active:scale-95 transition-all shrink-0">➤</button>
+    </div>
+    <p class="text-[10px] text-gray-400 text-right mt-1.5">UTT Assistant · Enter để gửi</p>
+  </div>
+
+</main>
+
+</div>
+</html>

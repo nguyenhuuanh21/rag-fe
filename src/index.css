@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Màu chủ đạo theo logo UTC ── */
+  --color-utc-navy:   #2D2A7F;   /* tím đậm – nền logo */
+  --color-utc-purple: #3D3A9B;   /* tím nhạt hơn – hover/gradient */
+  --color-utc-gold:   #F5C400;   /* vàng gold – viền & điểm nhấn */
+  --color-utc-gold-light: #FFE566; /* vàng nhạt – hover chip */
+
+  --font-sans: "Be Vietnam Pro", sans-serif;
+}

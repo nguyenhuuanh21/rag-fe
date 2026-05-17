@@ -1,0 +1,11 @@
+  @keyframes bounce3 {
+    0%,60%,100% { transform:translateY(0);opacity:.4 }
+    30%          { transform:translateY(-6px);opacity:1 }
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .d1{animation:bounce3 1.2s infinite}
+  .d2{animation:bounce3 1.2s .2s infinite}
+  .d3{animation:bounce3 1.2s .4s infinite}
+  .blink{animation:blink 2s infinite}
+  #msgs::-webkit-scrollbar{width:3px}
+  #msgs::-webkit-scrollbar-thumb{background:#E5E7EB;border-radius:2px}
