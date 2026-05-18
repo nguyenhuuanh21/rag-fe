@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UTC Assistant – Đăng nhập</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:   '#1e3a5f',
+            purple: '#6b3fa0',
+          },
+          backgroundImage: {
+            'utc': 'linear-gradient(135deg, #1e3a5f 0%, #6b3fa0 100%)',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+<!-- ═══════════════════════════════════════
+     Wrapper: mobile=column, lg=row
+════════════════════════════════════════ -->
+<div class="flex flex-col lg:flex-row min-h-screen">
+
+  <!-- ── LEFT PANEL ──────────────────────
+       mobile : gradient header strip
+       tablet : gradient topbar (flex row)
+       desktop: full left branding panel
+  ──────────────────────────────────────── -->
+  <div class="
+    bg-utc
+    flex flex-col justify-between
+    px-6 pt-10 pb-6
+    md:flex-row md:items-center md:px-6 md:py-4
+    lg:flex-col lg:items-start lg:justify-between lg:w-[420px] lg:shrink-0 lg:p-12
+  ">
+
+    <!-- Logo -->
+    <div class="
+      w-14 h-14 rounded-2xl bg-white/20 border border-white/30 mb-4
+      md:w-9 md:h-9 md:rounded-xl md:mb-0 md:shrink-0
+      lg:w-16 lg:h-16 lg:rounded-2xl lg:mb-0
+    "></div>
+
+    <!-- Title block -->
+    <div class="
+      mb-6
+      md:mb-0 md:ml-3 md:flex-1
+      lg:ml-0 lg:mb-0
+    ">
+      <!-- mobile + desktop label -->
+      <p class="
+        text-white/60 text-xs font-medium mb-0.5
+        md:hidden
+        lg:block lg:text-sm lg:mb-2
+      ">Đại học Giao thông Vận tải</p>
+
+      <!-- tablet: single line name -->
+      <p class="hidden md:block lg:hidden text-white text-sm font-bold">UTC Assistant</p>
+      <p class="hidden md:block lg:hidden text-white/60 text-xs">Đại học Giao thông Vận tải</p>
+
+      <!-- desktop: big heading -->
+      <h1 class="
+        text-white text-xl font-black leading-snug
+        md:hidden
+        lg:block lg:text-3xl lg:mb-4
+      ">UTC Assistant</h1>
+
+      <p class="
+        text-white/60 text-xs leading-relaxed
+        md:hidden
+        lg:block lg:text-sm
+      ">
+        Đăng nhập để truy cập trợ lý tư vấn sinh viên UTC — tra cứu học vụ, quy chế, học bổng và nhiều hơn nữa.
+      </p>
+    </div>
+
+    <!-- Footer: desktop only -->
+    <p class="text-white/30 text-xs hidden lg:block">© 2024 UTC Assistant</p>
+  </div>
+
+
+  <!-- ── RIGHT / MAIN FORM AREA ──────────
+       mobile : white card pulls up over header
+       tablet : centered card on gray bg
+       desktop: centered form on gray-50
+  ──────────────────────────────────────── -->
+  <div class="
+    flex-1 bg-white rounded-t-3xl -mt-4 px-6 pt-6 pb-10
+    md:rounded-none md:mt-0 md:flex md:items-center md:justify-center md:p-8 md:bg-gray-100
+    lg:bg-gray-50
+  ">
+
+    <!-- Card wrapper: tablet wraps in white card, mobile/desktop no extra card -->
+    <div class="
+      w-full
+      md:bg-white md:rounded-2xl md:shadow-lg md:overflow-hidden md:max-w-md
+      lg:max-w-sm lg:bg-transparent lg:shadow-none lg:rounded-none
+    ">
+
+      <!-- Tab bar -->
+      <div class="
+        flex border-b border-gray-100 mb-6
+        md:mb-0
+      ">
+        <button id="tab-login" onclick="show('login')"
+          class="flex-1 py-3 md:py-4 text-sm font-semibold text-navy border-b-2 border-navy transition-all">
+          Đăng nhập
+        </button>
+        <button id="tab-register" onclick="show('register')"
+          class="flex-1 py-3 md:py-4 text-sm font-medium text-gray-400 border-b-2 border-transparent transition-all">
+          Đăng ký
+        </button>
+      </div>
+
+      <!-- Forms -->
+      <div class="md:p-8 lg:p-0 lg:mt-8">
+
+        <!-- LOGIN -->
+        <form id="form-login" class="space-y-4" onsubmit="return false">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Email</label>
+            <input type="email" placeholder="example@lms.utc.edu.vn"
+              class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 transition" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Mật khẩu</label>
+            <input type="password" placeholder="••••••••"
+              class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 transition" />
+          </div>
+          <div class="text-right">
+            <a href="#" class="text-xs text-purple hover:underline">Quên mật khẩu?</a>
+          </div>
+          <button type="submit"
+            class="w-full py-3 rounded-xl bg-utc text-white text-sm font-bold shadow-md hover:opacity-90 active:scale-[.98] transition-all">
+            Đăng nhập
+          </button>
+          <p class="text-center text-xs text-gray-400 pt-1">
+            Chưa có tài khoản?
+            <button type="button" onclick="show('register')" class="text-navy font-semibold ml-1 hover:underline">Đăng ký</button>
+          </p>
+        </form>
+
+        <!-- REGISTER -->
+        <form id="form-register" class="space-y-4 hidden" onsubmit="return false">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Họ và tên</label>
+            <input type="text" placeholder="Nguyễn Văn A"
+              class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 transition" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Email</label>
+            <input type="email" placeholder="example@lms.utc.edu.vn"
+              class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 transition" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Mật khẩu</label>
+            <input type="password" placeholder="••••••••"
+              class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 transition" />
+          </div>
+          <button type="submit"
+            class="w-full py-3 rounded-xl bg-utc text-white text-sm font-bold shadow-md hover:opacity-90 active:scale-[.98] transition-all">
+            Tạo tài khoản
+          </button>
+          <p class="text-center text-xs text-gray-400 pt-1">
+            Đã có tài khoản?
+            <button type="button" onclick="show('login')" class="text-navy font-semibold ml-1 hover:underline">Đăng nhập</button>
+          </p>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function show(tab) {
+    const isLogin = tab === 'login';
+    const tl = document.getElementById('tab-login');
+    const tr = document.getElementById('tab-register');
+    const fl = document.getElementById('form-login');
+    const fr = document.getElementById('form-register');
+
+    tl.className = tl.className
+      .replace(/text-navy|text-gray-400|font-semibold|font-medium|border-navy|border-transparent/g, '').trim()
+      + (isLogin
+        ? ' font-semibold text-navy border-navy'
+        : ' font-medium text-gray-400 border-transparent');
+
+    tr.className = tr.className
+      .replace(/text-navy|text-gray-400|font-semibold|font-medium|border-navy|border-transparent/g, '').trim()
+      + (!isLogin
+        ? ' font-semibold text-navy border-navy'
+        : ' font-medium text-gray-400 border-transparent');
+
+    fl.classList.toggle('hidden', !isLogin);
+    fr.classList.toggle('hidden', isLogin);
+  }
+</script>
+
+</body>
+</html>

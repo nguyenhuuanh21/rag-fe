@@ -8,4 +8,9 @@
   --color-utc-gold-light: #FFE566; /* vàng nhạt – hover chip */
 
   --font-sans: "Be Vietnam Pro", sans-serif;
+  --background-image-utc: linear-gradient(
+    135deg,
+    #1e3a5f 0%,
+    #6b3fa0 100%
+  );
 }

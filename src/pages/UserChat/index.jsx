@@ -1,24 +1,78 @@
-import React, { useState } from 'react'
-import { chatUser } from '../../services/Api';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { chatUser, getChatHistory, logout } from '../../services/Api';
 import logo from "../../assets/logo.png";
-
+import { formatDate } from "../../shared/ultils";
+import { useDispatch } from 'react-redux';
+import { logoutSuccess } from '../../redux-setup/reducers/auth';
 const PDF_URL = "https://res.cloudinary.com/dybthajwz/image/upload/v1778940884/pdfs/cfa5475c-d2b0-450a-b022-1c554492280d.pdf";
 
 const UserChat = () => {
+    const dispatch=useDispatch();
+    const navigate = useNavigate();
     const [input, setInput] = useState("");
-    const [pdfOpen, setPdfOpen] = useState(false);      // mobile drawer
-    const [sidebarOpen, setSidebarOpen] = useState(false); // tablet slide-in
+    const [conversation, setConversation] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [pdfOpen, setPdfOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [desktopPdfOpen, setDesktopPdfOpen] = useState(true);
+
+    useEffect(() => {
+        getChatHistory()
+            .then(res => {
+                setConversation(res.data.conversation);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
+
+    const handleLogout = async () => {
+        logout()
+            .then((res) => {
+                console.log(res.data);
+                
+                dispatch(logoutSuccess());
+                navigate("/login");
+            })
+            .catch(err => {
+                console.error("Logout failed:", err);
+            });
+    };
 
     const sendMessage = () => {
-        chatUser(input).then(res => {
-            console.log(res.data);
+        if (!input.trim() || loading) return;
+        const inputValue = input;
+        setConversation(prev => [...prev, { role: "user", content: inputValue, createdAt: formatDate(new Date()) }]);
+        setInput("");
+        setLoading(true);
+        chatUser({ input: inputValue }).then(res => {
+            setConversation(prev => [...prev, {
+                role: "assistant",
+                content: res.data.answer,
+                createdAt: formatDate(new Date())
+            }]);
+            setLoading(false);
         }).catch(err => {
             console.error(err);
-        })
-    }
+            setConversation(prev => [...prev, {
+                role: "assistant",
+                content: 'Đã có lỗi xảy ra, vui lòng thử lại sau!',
+                createdAt: formatDate(new Date())
+            }]);
+            setLoading(false);
+        });
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    };
 
     return (
-        <div className="font-sans bg-gray-100 h-screen overflow-hidden flex relative">
+        <div className="font-sans bg-gray-100 flex relative" style={{ height: "100dvh", overflow: "hidden" }}>
 
             {/* ===== TABLET: overlay + slide-in sidebar ===== */}
             {sidebarOpen && (
@@ -29,7 +83,7 @@ const UserChat = () => {
             )}
 
             {/* ===== PDF SIDEBAR ===== */}
-            {/* Desktop: always visible | Tablet: slide-in | Mobile: hidden */}
+            {/* Desktop: toggle | Tablet: slide-in | Mobile: hidden */}
             <aside className={`
                 bg-white border-r border-gray-200 flex flex-col
                 w-[45%] min-w-[45%]
@@ -38,6 +92,7 @@ const UserChat = () => {
                 max-lg:fixed max-lg:inset-y-0 max-lg:left-0 max-lg:z-40 max-lg:shadow-xl max-lg:w-[340px] max-lg:min-w-[340px]
                 max-lg:transition-transform max-lg:duration-300
                 ${sidebarOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'}
+                ${!desktopPdfOpen ? 'lg:hidden' : ''}
             `}>
                 {/* Header */}
                 <div className="bg-gradient-to-br from-utc-navy to-utc-purple p-4 flex items-center gap-3 text-white shrink-0">
@@ -72,35 +127,65 @@ const UserChat = () => {
             </aside>
 
             {/* ===== CHAT SECTION ===== */}
-            <main className="flex-1 flex flex-col min-w-0">
+            <main className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden">
 
                 {/* Mobile top bar */}
                 <div className="md:hidden flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-utc-navy to-utc-purple text-white shrink-0">
-                    <div className="w-9 h-9 rounded-lg bg-white/15 border border-white/25 flex items-center justify-center text-lg">☰</div>
+                    {/* Ảnh */}
+                    <img
+                        src={logo}
+                        alt="avatar"
+                        className="w-12 h-12 rounded-full object-cover border border-white/30 shrink-0"
+                    />
+                    {/* Text */}
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold truncate">🎓 Sổ Tay Sinh Viên</p>
+                        <p className="text-sm font-semibold truncate"> Sổ Tay Sinh Viên</p>
                         <p className="text-xs opacity-75">Đại học Giao thông Vận tải</p>
                     </div>
                     <button
                         onClick={() => setPdfOpen(true)}
                         className="text-xs px-3 py-1.5 rounded-lg bg-white/15 border border-white/25 shrink-0"
-                    >📄 PDF</button>
+                    >
+                        📄 PDF
+                    </button>
+                    <button
+                        onClick={handleLogout}
+                        className="text-xs px-3 py-1.5 rounded-lg bg-white/15 border border-white/25 shrink-0 hover:bg-white/25 transition"
+                    >
+                        Đăng xuất
+                    </button>
                 </div>
 
                 {/* Tablet top bar */}
                 <div className="hidden md:flex lg:hidden items-center gap-3 px-4 py-3 bg-gradient-to-r from-utc-navy to-utc-purple text-white shrink-0">
-                    <button
-                        onClick={() => setSidebarOpen(true)}
-                        className="w-9 h-9 rounded-lg bg-white/15 border border-white/25 flex items-center justify-center text-lg"
-                    >☰</button>
+
+                    {/* Avatar */}
+                    <img
+                        src={logo}
+                        alt="avatar"
+                        className="w-12 h-12 rounded-full object-cover border border-white/30 shrink-0"
+                    />
+
+                    {/* Text */}
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold truncate">🎓 Sổ Tay Sinh Viên</p>
+                        <p className="text-sm font-semibold truncate"> Sổ Tay Sinh Viên</p>
                         <p className="text-xs opacity-75">Đại học Giao thông Vận tải</p>
                     </div>
+
+                    {/* Buttons */}
                     <button
                         onClick={() => setPdfOpen(true)}
                         className="text-xs px-3 py-1.5 rounded-lg bg-white/15 border border-white/25 shrink-0"
-                    >📄 PDF</button>
+                    >
+                        📄 PDF
+                    </button>
+
+                    <button
+                        onClick={handleLogout}
+                        className="text-xs px-3 py-1.5 rounded-lg bg-white/15 border border-white/25 shrink-0 hover:bg-white/25 transition"
+                    >
+                        Đăng xuất
+                    </button>
                 </div>
 
                 {/* Desktop header */}
@@ -115,11 +200,19 @@ const UserChat = () => {
                             Đang hoạt động
                         </p>
                     </div>
+                    <button
+                        onClick={() => setDesktopPdfOpen(v => !v)}
+                        className="text-xs px-3 py-1.5 border border-gray-200 rounded-lg bg-gray-50 hover:bg-gray-100 text-gray-600 transition shrink-0"
+                    >{desktopPdfOpen ? '✕ Ẩn PDF' : '📄 PDF'}</button>
+                    <button
+                        onClick={handleLogout}
+                        className="text-xs px-3 py-1.5 border border-gray-200 rounded-lg bg-gray-50 hover:bg-red-50 hover:text-red-600 hover:border-red-200 text-gray-600 transition shrink-0"
+                    >Đăng xuất</button>
                     <button className="w-9 h-9 border border-gray-200 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition text-sm">🗑️</button>
                 </div>
 
                 {/* Messages area */}
-                <div id="msgs" className="flex-1 overflow-y-auto px-4 py-5 md:px-6 flex flex-col gap-4 bg-gray-50">
+                <div id="msgs" className="flex-1 min-h-0 overflow-y-auto px-4 py-5 md:px-6 flex flex-col gap-4 bg-gray-50">
 
                     {/* Welcome card */}
                     <div className="rounded-2xl bg-gradient-to-br from-utc-navy to-utc-purple text-white p-5 text-center relative overflow-hidden">
@@ -137,60 +230,49 @@ const UserChat = () => {
                         </div>
                     </div>
 
-                    {/* Bot message */}
-                    <div className="flex items-end gap-2">
-                        <div className="w-8 h-8 rounded-full overflow-hidden shadow shrink-0">
-                            <img src={logo} alt="avatar" className="w-full h-full object-cover" />
-                        </div>
-                        <div>
-                            <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 text-sm text-gray-800 shadow-sm max-w-xs leading-relaxed">
-                                Chào bạn! 👋 Tôi sẵn sàng hỗ trợ mọi thắc mắc về <span className="text-utc-navy font-semibold">Sổ Tay Sinh Viên UTC</span>. 📖
-                            </div>
-                            <p className="text-[10px] text-gray-400 mt-1 ml-1">08:30</p>
-                        </div>
-                    </div>
+                    {conversation.map((msg, idx) => {
+                        if (msg.role === "user") {
+                            return (
+                                <div key={idx} className="flex items-end gap-2 flex-row-reverse">
+                                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white text-sm shadow shrink-0">👤</div>
+                                    <div className="flex flex-col items-end">
+                                        <div className="bg-gradient-to-br from-utc-navy to-utc-purple text-white rounded-2xl rounded-br-sm px-4 py-3 text-sm shadow-sm max-w-xs leading-relaxed">
+                                            {msg.content}
+                                        </div>
+                                        <p className="text-[10px] text-gray-400 mt-1 mr-1">{formatDate(msg.createdAt)}</p>
+                                    </div>
+                                </div>
+                            );
+                        } else {
+                            return (
+                                <div key={idx} className="flex items-end gap-2">
+                                    <div className="w-8 h-8 rounded-full overflow-hidden shadow shrink-0">
+                                        <img src={logo} alt="avatar" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 text-sm text-gray-800 shadow-sm max-w-xs leading-relaxed">
+                                            {msg.content}
+                                        </div>
+                                        <p className="text-[10px] text-gray-400 mt-1 ml-1">{formatDate(msg.createdAt)}</p>
+                                    </div>
+                                </div>
+                            );
+                        }
+                    })}
 
-                    {/* User message (sample) */}
-                    <div className="flex items-end gap-2 flex-row-reverse">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white text-sm shadow shrink-0">👤</div>
-                        <div className="flex flex-col items-end">
-                            <div className="bg-gradient-to-br from-utc-navy to-utc-purple text-white rounded-2xl rounded-br-sm px-4 py-3 text-sm shadow-sm max-w-xs leading-relaxed">
-                                Quy định học vụ như thế nào?
+                    {/* Bot typing indicator */}
+                    {loading && (
+                        <div className="flex items-end gap-2">
+                            <div className="w-8 h-8 rounded-full overflow-hidden shadow shrink-0">
+                                <img src={logo} alt="avatar" className="w-full h-full object-cover" />
                             </div>
-                            <p className="text-[10px] text-gray-400 mt-1 mr-1">08:31</p>
-                        </div>
-                    </div>
-
-                    {/* Bot reply (sample) */}
-                    <div className="flex items-end gap-2">
-                        <div className="w-8 h-8 rounded-full overflow-hidden shadow shrink-0">
-                            <img src={logo} alt="avatar" className="w-full h-full object-cover" />
-                        </div>
-                        <div>
-                            <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 text-sm text-gray-800 shadow-sm max-w-sm leading-relaxed">
-                                <b className="text-utc-navy">Quy định học vụ UTT:</b>
-                                <ul className="list-disc pl-4 mt-2 space-y-1 text-gray-700">
-                                    <li>Đăng ký tối thiểu <b>14 tín chỉ/học kỳ</b></li>
-                                    <li>GPA tối thiểu không bị cảnh báo: <b>1.0/4.0</b></li>
-                                    <li>Nghỉ quá 20% số tiết → cấm thi</li>
-                                    <li>Thời gian đào tạo tối đa: <b>2× số năm chuẩn</b></li>
-                                </ul>
+                            <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3.5 flex gap-1.5 shadow-sm">
+                                <span className="d1 w-2 h-2 rounded-full bg-utc-navy inline-block" />
+                                <span className="d2 w-2 h-2 rounded-full bg-utc-navy inline-block" />
+                                <span className="d3 w-2 h-2 rounded-full bg-utc-navy inline-block" />
                             </div>
-                            <p className="text-[10px] text-gray-400 mt-1 ml-1">08:31</p>
                         </div>
-                    </div>
-
-                    {/* Typing indicator (sample) */}
-                    <div className="flex items-end gap-2">
-                        <div className="w-8 h-8 rounded-full overflow-hidden shadow shrink-0">
-                            <img src={logo} alt="avatar" className="w-full h-full object-cover" />
-                        </div>
-                        <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3.5 flex gap-1.5 shadow-sm">
-                            <span className="d1 w-2 h-2 rounded-full bg-utc-navy inline-block" />
-                            <span className="d2 w-2 h-2 rounded-full bg-utc-navy inline-block" />
-                            <span className="d3 w-2 h-2 rounded-full bg-utc-navy inline-block" />
-                        </div>
-                    </div>
+                    )}
                 </div>
 
                 {/* Input bar */}
@@ -201,15 +283,16 @@ const UserChat = () => {
                             rows={1}
                             value={input}
                             onChange={e => setInput(e.target.value)}
+                            onKeyDown={handleKeyDown}
                             placeholder="Nhập câu hỏi về sổ tay sinh viên..."
                             className="flex-1 bg-transparent border-none outline-none text-sm text-gray-800 placeholder-gray-400 resize-none max-h-28 leading-relaxed font-sans"
                         />
                         <button
                             onClick={sendMessage}
-                            className="w-9 h-9 rounded-xl bg-gradient-to-br from-utc-navy to-utc-purple text-white flex items-center justify-center shadow-md hover:scale-105 hover:shadow-lg active:scale-95 transition-all shrink-0"
+                            disabled={loading}
+                            className="w-9 h-9 rounded-xl bg-gradient-to-br from-utc-navy to-utc-purple text-white flex items-center justify-center shadow-md hover:scale-105 hover:shadow-lg active:scale-95 transition-all shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                         >➤</button>
                     </div>
-                    <p className="text-[10px] text-gray-400 text-right mt-1.5">UTT Assistant · Enter để gửi</p>
                 </div>
             </main>
 
@@ -242,7 +325,7 @@ const UserChat = () => {
             )}
 
         </div>
-    )
-}
+    );
+};
 
 export default UserChat
