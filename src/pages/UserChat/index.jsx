@@ -104,7 +104,7 @@ const UserChat = () => {
             `}>
                 {/* Toolbar nhỏ — không còn header logo */}
                 <div className="flex items-center gap-2 px-4 py-2.5 border-b border-gray-100 bg-gray-50 shrink-0">
-                    <span className="text-xs font-semibold text-utc-navy">📄 Sổ tay 2024</span>
+                    <span className="text-xs font-semibold text-utc-navy">📄 Sổ tay 2022</span>
                     <div className="flex-1" />
                     <a href={PDF_URL} target="_blank" rel="noreferrer"
                         className="text-xs px-3 py-1.5 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 text-gray-600 transition">
@@ -130,8 +130,8 @@ const UserChat = () => {
                     <img src={logo} alt="avatar"
                         className="w-9 h-9 rounded-full object-cover border border-white/30 shrink-0" />
                     <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold truncate">Sổ Tay Sinh Viên</p>
-                        <p className="text-[10px] opacity-70">UTC</p>
+                        <p className="text-xs font-semibold truncate">Sổ Tay Sinh Viên Khóa 63</p>
+                        <p className="text-[10px] opacity-70">Đại học Giao thông Vận tải</p>
                     </div>
                     {/* PDF */}
                     <ActionBtn light onClick={() => setPdfOpen(true)} title="Xem PDF">
@@ -153,7 +153,7 @@ const UserChat = () => {
                     <img src={logo} alt="avatar"
                         className="w-10 h-10 rounded-full object-cover border border-white/30 shrink-0" />
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold truncate">Sổ Tay Sinh Viên</p>
+                        <p className="text-sm font-semibold truncate">Sổ Tay Sinh Viên Khóa 63</p>
                         <p className="text-xs opacity-70">Đại học Giao thông Vận tải</p>
                     </div>
                     {/* PDF */}
@@ -181,7 +181,7 @@ const UserChat = () => {
                     </div>
                     {/* Tên trường + tiêu đề assistant */}
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold leading-tight">UTC Assistant – Sổ Tay Sinh Viên</p>
+                        <p className="text-sm font-semibold leading-tight"> Sổ Tay Sinh Viên Khóa 63</p>
                         <p className="text-xs opacity-75">Đại học Giao thông Vận tải</p>
                     </div>
 
@@ -286,7 +286,7 @@ const UserChat = () => {
                         <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 shrink-0">
                             <div className="flex items-center gap-2">
                                 <IconPdfShow />
-                                <p className="font-semibold text-gray-900 text-sm">Sổ Tay Sinh Viên 2024</p>
+                                <p className="font-semibold text-gray-900 text-sm">Sổ Tay Sinh Viên 2022</p>
                             </div>
                             <div className="flex items-center gap-2">
                                 <a href={PDF_URL} target="_blank" rel="noreferrer"

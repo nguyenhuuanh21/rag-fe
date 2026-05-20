@@ -49,17 +49,17 @@ lg:ml-0 lg:mb-0
   text-white text-xl font-black leading-snug
   md:hidden
   lg:block lg:text-3xl lg:mb-4
-">UTC Assistant</h1>
+">UTC UTC Sổ Tay Sinh Viên Khóa 63</h1>
             <p className="
   text-white/60 text-xs leading-relaxed
   md:hidden
   lg:block lg:text-sm
 ">
-              Đăng nhập để truy cập trợ lý tư vấn sinh viên UTC khóa 63— tra cứu học vụ, quy chế, học bổng và nhiều hơn nữa.
+              Đăng nhập để truy cập trợ lý tư vấn sinh viên UTC khóa 63— tra cứu thông tin trong sổ tay sinh viên dành cho sinh viên khóa 63 hệ chính quy.
             </p>
           </div>
           {/* Footer: desktop only */}
-          <p className="text-white/30 text-xs hidden lg:block">© 2022 UTC Assistant</p>
+          <p className="text-white/30 text-xs hidden lg:block">© 2022 UTC Sổ Tay Sinh Viên Khóa 63</p>
         </div>
         {/* ── RIGHT / MAIN FORM AREA ──────────
   mobile : white card pulls up over header
