@@ -75,7 +75,11 @@ Http.interceptors.response.use(
       }
     }
 
-    if (response.data?.message === "access token has been revoked" || response.data?.message === "refresh token has been revoked" || response.data?.message === "refresh token is expired") {
+    if (response.data?.message === "access token has been revoked" ||
+       response.data?.message === "refresh token has been revoked" || 
+       response.data?.message === "refresh token is expired"||
+       response.data?.message === "refresh token is required"||
+       response.data?.message === "Invalid refresh token") {
       if (!isLoggingOut) {
         isLoggingOut = true;
         store.dispatch(logoutSuccess());

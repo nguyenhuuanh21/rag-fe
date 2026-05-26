@@ -3,6 +3,7 @@ import Login from '../../shared/components/Login'
 import Register from '../../shared/components/Register'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import logo from '../../assets/logo.png'
+
 const Auth = () => {
   const location = useLocation()
   return (
@@ -42,20 +43,20 @@ lg:ml-0 lg:mb-0
   lg:block lg:text-sm lg:mb-2
 ">Đại học Giao thông Vận tải</p>
             {/* tablet: single line name */}
-            <p className="hidden md:block lg:hidden text-white text-sm font-bold">UTC Assistant</p>
+            <p className="hidden md:block lg:hidden text-white text-sm font-bold">UTC Sổ Tay Sinh Viên Khóa 63</p>
             <p className="hidden md:block lg:hidden text-white/60 text-xs">Đại học Giao thông Vận tải</p>
             {/* desktop: big heading */}
             <h1 className="
   text-white text-xl font-black leading-snug
   md:hidden
   lg:block lg:text-3xl lg:mb-4
-">UTC UTC Sổ Tay Sinh Viên Khóa 63</h1>
+">UTC Sổ Tay Sinh Viên Khóa 63</h1>
             <p className="
   text-white/60 text-xs leading-relaxed
   md:hidden
   lg:block lg:text-sm
 ">
-              Đăng nhập để truy cập trợ lý tư vấn sinh viên UTC khóa 63— tra cứu thông tin trong sổ tay sinh viên dành cho sinh viên khóa 63 hệ chính quy.
+              Đăng nhập để truy cập trợ lý tư vấn sinh viên UTC khóa 63 - tra cứu thông tin trong sổ tay sinh viên dành cho sinh viên khóa 63 hệ chính quy.
             </p>
           </div>
           {/* Footer: desktop only */}
@@ -78,7 +79,8 @@ md:bg-white md:rounded-2xl md:shadow-lg md:overflow-hidden md:max-w-md
 lg:max-w-sm lg:bg-transparent lg:shadow-none lg:rounded-none
     ">
             {/* Tab bar */}
-            <div className="
+            {location.pathname !== '/reset-password' && location.pathname !== '/forgot-password' && location.pathname !== '/verify-otp' && (
+              <div className="
   flex border-b border-gray-100 mb-6
   md:mb-0
 ">
@@ -88,7 +90,7 @@ lg:max-w-sm lg:bg-transparent lg:shadow-none lg:rounded-none
               <button id="tab-register" className={`flex-1 py-3 md:py-4 text-sm ${location.pathname === '/register' ? 'font-semibold text-navy border-b-2 border-navy' : 'font-medium text-gray-400 border-b-2 border-transparent'} transition-all`}>
                 <Link to="/register">Đăng ký</Link>
               </button>
-            </div>
+            </div>)}
             {/* Forms */}
             <div className="md:p-8 lg:p-0 lg:mt-8">
 

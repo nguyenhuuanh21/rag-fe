@@ -16,10 +16,7 @@ const Register = () => {
         e.preventDefault();
         setErrors({});
         setMsg({});
-        if (!input.fullName || !input.email || !input.password) {
-            setMsg("Vui lòng điền đầy đủ thông tin.");
-            return;
-        }
+
 
         register(input)
             .then((response) => {
@@ -29,16 +26,17 @@ const Register = () => {
             })
             .catch((error) => {
                 console.error("Registration failed:", error);
-
-                // Lỗi từ express-validator backend trả về
-                if (error.response?.data?.errors || error.response?.data?.message === 'Email already exists') {
-                    const backendErrors = {};
+                const message = error.response?.data?.message;
+                const backendErrors = {};
+                if (message === 'Email already exists') {
+                    setMsg({ text: "Email đã tồn tại. Vui lòng sử dụng email khác.", type: "error" });
+                }
+                if (error.response?.data?.errors) {
                     error.response.data.errors.forEach((err) => {
                         backendErrors[err.path] = err.msg;
                     });
                     setErrors(backendErrors);
-                    setMsg({ text: "Email đã tồn tại. Vui lòng sử dụng email khác.", type: "error" });
-                }else {
+                } else if (message !== 'Email already exists') {
                     setMsg({ text: "Đăng ký thất bại. Vui lòng thử lại.", type: "error" });
                 }
             });

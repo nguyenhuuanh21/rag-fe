@@ -1,5 +1,6 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
 
+@import "tailwindcss";
 @theme {
   /* ── Màu chủ đạo theo logo UTC ── */
   --color-utc-navy:   #2D2A7F;   /* tím đậm – nền logo */

@@ -1,9 +1,14 @@
 import Http  from "./Http";
-export const chatUser = (data) => Http.post("chat", data);
-export const getChatHistory = () => Http.get("get-chat-history");
+export const chatUser = (id,data) => Http.post(`chat/${id}`, data);
+export const getAllConversations = () => Http.get("get-all-chat");
+export const getChatHistory = (id) => Http.get(`get-chat/${id}`);
+export const createConversation = (data) => Http.post("create-chat", data);
 export const logout= () => Http.post("logout");
 export const login = (data) => Http.post("login", data);
 export const register = (data) => Http.post("register", data);
 export const refreshToken = () => Http.post("refresh-token");
-export const clearChatHistory = () => Http.delete("clear-chat-history");
-
+export const clearChatHistory = (id) => Http.delete(`delete-chat/${id}`);
+export const forgotPassword = (data) => Http.post("forgot-password", data);
+export const verifyOtp = (data) => Http.post("verify-otp", data);
+export const resetPassword = (data) => Http.post("reset-password", data);
+export const searchKeyword = (data) => Http.post("search-chat",data);
