@@ -5,7 +5,7 @@ import UserChat from './pages/UserChat'
 import Auth from './pages/Auth'
 import Login from './shared/components/Login'
 import Register from './shared/components/Register'
-import ForgotPassword from './shared/components/Forgotpassword'
+import ForgotPassword from './shared/components/ForgotPassword'
 import VerifyOtp from './shared/components/VerifyOtp'
 import ResetPassword from './shared/components/ResetPassword'
 import { withAuth, withoutAuth } from "./hocs";

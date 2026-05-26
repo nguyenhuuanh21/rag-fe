@@ -488,7 +488,7 @@ const UserChat = () => {
                                                             state: { scrollToMsgId: msg.msgId }
                                                         });
                                                         setSearchResults([]);
-                                                        setKeyword('');
+                                                        setKeyword(''); 
                                                         setShowSearchModal(false)
 
                                                     }}
